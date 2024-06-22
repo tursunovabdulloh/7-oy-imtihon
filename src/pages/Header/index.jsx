@@ -41,10 +41,16 @@ function Header() {
                 </a>
               </div>
             </div>
-            <div className="navbar-center flex gap-8">
-              <NavLink to="/">Home</NavLink>
-              <NavLink to="/products">Products</NavLink>
-              <NavLink to="/cart">Cart</NavLink>
+            <div className="navbar-center p-0 flex gap-8">
+              <NavLink className="" to="/">
+                Home
+              </NavLink>
+              <NavLink className="" to="/products">
+                Products
+              </NavLink>
+              <NavLink className="" to="/cart">
+                Cart
+              </NavLink>
             </div>
             <div className="navbar-end flex gap">
               <div className="dropdown">

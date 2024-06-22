@@ -49,3 +49,9 @@ a.active {
   color: #fff;
   border-radius: 8px;
 }
+a:hover {
+  padding: 8px 15.8px 8px 16px;
+  background: #a3a4a7;
+  color: #fff;
+  border-radius: 8px;
+}

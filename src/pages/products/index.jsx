@@ -2,47 +2,44 @@ import React, { useState, useEffect } from "react";
 import rasm_1 from "../../assets/Button.svg";
 import rasm_2 from "../../assets/Button1.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "../../store/CartSlice";
+import { addProduct, getData } from "../../store/CartSlice";
+import { useGetProductsQuery } from "./productsApi";
 
 function Products() {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart.products);
-  console.log(cart);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { filteredData } = useSelector((state) => state.cart);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const productsPerPage = 18;
+  const { data, error, isLoading, isSuccess } = useGetProductsQuery({
+    limit: productsPerPage,
+    skip: (currentPage - 1) * productsPerPage,
+  });
+
+  useEffect(() => {}, [filter]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(getData(data.products));
+    }
+  }, [isSuccess, data, dispatch]);
 
   const addToCart = (product) => {
     dispatch(addProduct(product));
   };
 
-  useEffect(() => {
-    async function getProducts() {
-      try {
-        const res = await fetch(
-          `https://dummyjson.com/products?limit=${productsPerPage}&skip=${
-            (currentPage - 1) * productsPerPage
-          }`
-        );
-        if (!res.ok) {
-          throw new Error("Network response was not ok " + res.statusText);
-        }
-        const data = await res.json();
-        setData(data.products);
-        setTotalPages(Math.ceil(data.total / productsPerPage));
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
     }
-    getProducts();
-  }, [currentPage]);
+  };
 
-  if (loading) {
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(data.total / productsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  if (isLoading) {
     return (
       <div className="container flex justify-center mt-36">
         <span
@@ -54,27 +51,15 @@ function Products() {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error.message}</div>;
   }
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   return (
     <>
       <div className="container">
         <div className="bg-blue-100 px-8 mt-20 rounded-[6px]">
-          <form className="flex flex-col  mb-8 pt-6">
-            <div className="flex items-center justify-between mb-8">
+          <form className="flex flex-col mb-8 pt-6">
+            <div className="flex items-center justify-between mb-10">
               <div>
                 <p className="font-[Segoe UI] font-normal text-[14px] pl-1 mb-2 text-[#394E6A]">
                   Search product
@@ -90,7 +75,7 @@ function Products() {
                   Select category
                 </p>
                 <select className="select select-bordered w-[245px]">
-                  <option selected>all</option>
+                  <option defaultValue="all">all</option>
                   <option>Tables</option>
                   <option>Chairs</option>
                   <option>Kids</option>
@@ -98,28 +83,28 @@ function Products() {
                   <option>Beds</option>
                 </select>
               </div>
-              <div>
+              {/* <div>
                 <p className="font-[Segoe UI] font-normal text-[14px] pl-1 mb-2 text-[#394E6A]">
                   Select company
                 </p>
                 <select className="select select-bordered w-[245px]">
-                  <option disabled selected>
-                    all
-                  </option>
+                  <option defaultValue="all">all</option>
                   <option>Han Solo</option>
                   <option>Greedo</option>
                 </select>
-              </div>
+              </div> */}
               <div>
                 <p className="font-[Segoe UI] font-normal text-[14px] pl-1 mb-2 text-[#394E6A]">
                   Sort By
                 </p>
-                <select className="select select-bordered w-[245px]">
-                  <option disabled selected>
-                    a-z
-                  </option>
-                  <option>Han Solo</option>
-                  <option>Greedo</option>
+                <select
+                  value={filter}
+                  className="select select-bordered w-[245px]"
+                >
+                  <option value="a-z">a-z</option>
+                  <option value="z-a">z-a</option>
+                  <option value="low">low</option>
+                  <option value="high">high</option>
                 </select>
               </div>
             </div>
@@ -131,7 +116,7 @@ function Products() {
                   className="range range-info w-[245px]"
                 />
               </div>
-              <div className="flex gap-16">
+              <div className="flex gap-[215px]">
                 <button
                   type="submit"
                   className="w-[245px] h-8 btn btn-info text-[#DBE1FF] min-h-0 bg-[#057AFF] rounded-lg font-[Segoe UI] font-normal text-[13px]"
@@ -152,7 +137,7 @@ function Products() {
           <div className="flex justify-between mb-[15px]">
             <div>
               <p className="font-[Segoe UI] font-normal text-[15px] text-[#394E6A]">
-                {data.length} products
+                {filteredData.length} products
               </p>
             </div>
             <div className="flex gap-4">
@@ -165,8 +150,8 @@ function Products() {
         <main className="mt-5">
           <section>
             <div className="container grid gap-14 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-24 xl:gap-x-48 mt-10 pb-20 stretch">
-              {data &&
-                data.map(
+              {!!filteredData?.length &&
+                filteredData.map(
                   ({
                     id,
                     title,
@@ -232,11 +217,11 @@ function Products() {
             Prev
           </button>
           <span className="mx-2">
-            Page {currentPage} of {totalPages}
+            Page {currentPage} of {Math.ceil(data.total / productsPerPage)}
           </span>
           <button
             onClick={handleNextPage}
-            disabled={currentPage === totalPages}
+            disabled={currentPage === Math.ceil(data.total / productsPerPage)}
             className="btn btn-primary ml-2"
           >
             Next

@@ -161,7 +161,6 @@ function Register() {
       <div className={style.wrapper}>
         <h2 className={style.t}>Register</h2>
         <form className={style.box} onSubmit={handleSubmit}>
-          {/* {error && <p className={style.error}>{error}</p>} */}
           <div className={style.usernameDiv}>
             <p className={style.inputText}>Username</p>
             <input

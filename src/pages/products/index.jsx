@@ -132,8 +132,7 @@ function Products() {
                   SEARCH
                 </button>
                 <button
-                  type="button"
-                  onClick={() => setSearchClicked(false)}
+                  type="submit"
                   className="w-[245px] h-8 btn btn-active btn-secondary min-h-0 text-[#DBE1FF] bg-[#C149AD] rounded-lg font-[Segoe UI] font-normal text-[13px]"
                 >
                   RESET

@@ -12,11 +12,11 @@ const cartSlice = createSlice({
       state.data = action.payload;
       state.filteredData = action.payload;
     },
-    filterDataByCategory: (state, action) => {
-      state.filteredData = state.data.filter(
-        (product) => product.category === action.payload.category
-      );
-    },
+    // filterDataByCategory: (state, action) => {
+    //   state.filteredData = state.data.filter(
+    //     (product) => product.category === action.payload.category
+    //   );
+    // },
     setSortOrder: (state, action) => {
       const { data } = state;
       switch (action.payload) {

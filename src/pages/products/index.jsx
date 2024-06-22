@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import rasm_1 from "../../assets/Button.svg";
 import rasm_2 from "../../assets/Button1.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, getData } from "../../store/CartSlice";
+import {
+  addProduct,
+  getData,
+  filterDataByCategory,
+  setSortOrder,
+} from "../../store/CartSlice";
 import { useGetProductsQuery } from "./productsApi";
 
 function Products() {
@@ -14,8 +19,11 @@ function Products() {
     limit: productsPerPage,
     skip: (currentPage - 1) * productsPerPage,
   });
+  const [filter, setFilter] = useState("a-z");
 
-  useEffect(() => {}, [filter]);
+  useEffect(() => {
+    dispatch(setSortOrder(filter));
+  }, [filter, dispatch]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -83,22 +91,13 @@ function Products() {
                   <option>Beds</option>
                 </select>
               </div>
-              {/* <div>
-                <p className="font-[Segoe UI] font-normal text-[14px] pl-1 mb-2 text-[#394E6A]">
-                  Select company
-                </p>
-                <select className="select select-bordered w-[245px]">
-                  <option defaultValue="all">all</option>
-                  <option>Han Solo</option>
-                  <option>Greedo</option>
-                </select>
-              </div> */}
               <div>
                 <p className="font-[Segoe UI] font-normal text-[14px] pl-1 mb-2 text-[#394E6A]">
                   Sort By
                 </p>
                 <select
                   value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
                   className="select select-bordered w-[245px]"
                 >
                   <option value="a-z">a-z</option>
@@ -118,13 +117,13 @@ function Products() {
               </div>
               <div className="flex gap-[215px]">
                 <button
-                  type="submit"
+                  // type="submit"
                   className="w-[245px] h-8 btn btn-info text-[#DBE1FF] min-h-0 bg-[#057AFF] rounded-lg font-[Segoe UI] font-normal text-[13px]"
                 >
                   SEARCH
                 </button>
                 <button
-                  type="submit"
+                  // type="submit"
                   className="w-[245px] h-8 btn btn-active btn-secondary min-h-0 text-[#DBE1FF] bg-[#C149AD] rounded-lg font-[Segoe UI] font-normal text-[13px]"
                 >
                   RESET

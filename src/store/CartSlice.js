@@ -1,34 +1,3 @@
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const cartSlice = createSlice({
-//   name: "cart",
-//   initialState: {
-//     data: [],
-//     filteredData: [],
-//     products: JSON.parse(localStorage.getItem("cart")) ?? [],
-//   },
-//   reducers: {
-//     getData: (state, action) => {
-//       state.data = action.payload;
-//       state.filteredData = action.payload;
-//     },
-//     filterData: (state, action) => {
-//       state.filteredData = state.data.filter(
-//         (product) => product.category === action.payload.category
-//       );
-//       state.filteredData = state.data.sort();
-//     },
-//     filterData: (state, action) => {},
-//     addProduct: (state, action) => {
-//       state.products.push(action.payload);
-//       localStorage.setItem("cart", JSON.stringify(state.products));
-//     },
-//   },
-// });
-
-// export const { addProduct, getData, filterData } = cartSlice.actions;
-
-// export default cartSlice.reducer;
 import { createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
@@ -48,38 +17,28 @@ const cartSlice = createSlice({
         (product) => product.category === action.payload.category
       );
     },
-    sortData: (state, action) => {
+    setSortOrder: (state, action) => {
+      const { data } = state;
       switch (action.payload) {
         case "high":
-          state.filteredData = data.sort((a, b) => a.price - b.price);
+          state.filteredData = [...data].sort((a, b) => b.price - a.price);
           break;
         case "low":
-          state.filteredData = data.sort((a, b) => b.price - a.price);
+          state.filteredData = [...data].sort((a, b) => a.price - b.price);
           break;
         case "a-z":
-          state.filteredData = data.sort(function (a, b) {
-            if (a.title < b.title) {
-              return -1;
-            }
-            if (a.title > b.title) {
-              return 1;
-            }
-            return 0;
-          });
+          state.filteredData = [...data].sort((a, b) =>
+            a.title.localeCompare(b.title)
+          );
           break;
         case "z-a":
-          state.filteredData = data.sort(function (a, b) {
-            if (a.title < b.title) {
-              return 1;
-            }
-            if (a.title > b.title) {
-              return -1;
-            }
-            return 0;
-          });
+          state.filteredData = [...data].sort((a, b) =>
+            b.title.localeCompare(a.title)
+          );
           break;
+        default:
+          state.filteredData = [...data];
       }
-      state.filteredData = state.filteredData.sort();
     },
     addProduct: (state, action) => {
       state.products.push(action.payload);
@@ -88,7 +47,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addProduct, getData, filterDataByCategory, sortData } =
+export const { addProduct, getData, filterDataByCategory, setSortOrder } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

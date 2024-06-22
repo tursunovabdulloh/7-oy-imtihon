@@ -46,7 +46,9 @@ const cartSlice = createSlice({
     },
     searchItem: (state, action) => {
       state.filteredData = [
-        ...state.data.filter(({ title }) => title.includes(action.payload)),
+        ...state.data.filter(({ title }) =>
+          title.toLowerCase().includes(action.payload.toLowerCase())
+        ),
       ];
     },
   },

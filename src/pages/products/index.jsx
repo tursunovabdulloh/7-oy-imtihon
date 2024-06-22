@@ -24,7 +24,6 @@ function Products() {
   const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     dispatch(searchItem(searchValue));
-    // fetch(`https://dummyjson.com/products/search?q=${searchValue}`);
   }, [searchValue]);
 
   useEffect(() => {

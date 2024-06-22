@@ -42,13 +42,13 @@ function Header() {
               </div>
             </div>
             <div className="navbar-center p-0 flex gap-8">
-              <NavLink className="" to="/">
+              <NavLink className="link" to="/">
                 Home
               </NavLink>
-              <NavLink className="" to="/products">
+              <NavLink className="link" to="/products">
                 Products
               </NavLink>
-              <NavLink className="" to="/cart">
+              <NavLink className="link" to="/cart">
                 Cart
               </NavLink>
             </div>

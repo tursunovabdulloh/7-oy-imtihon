@@ -44,10 +44,20 @@ const cartSlice = createSlice({
       state.products.push(action.payload);
       localStorage.setItem("cart", JSON.stringify(state.products));
     },
+    searchItem: (state, action) => {
+      state.filteredData = [
+        ...state.data.filter(({ title }) => title.includes(action.payload)),
+      ];
+    },
   },
 });
 
-export const { addProduct, getData, filterDataByCategory, setSortOrder } =
-  cartSlice.actions;
+export const {
+  addProduct,
+  getData,
+  filterDataByCategory,
+  setSortOrder,
+  searchItem,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

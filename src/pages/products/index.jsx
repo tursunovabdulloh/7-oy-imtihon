@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
   getData,
-  filterDataByCategory,
+  searchItem,
   setSortOrder,
 } from "../../store/CartSlice";
 import { useGetProductsQuery } from "./productsApi";
@@ -20,16 +20,23 @@ function Products() {
     skip: (currentPage - 1) * productsPerPage,
   });
   const [filter, setFilter] = useState("a-z");
-
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
-    dispatch(setSortOrder(filter));
-  }, [filter, dispatch]);
+    dispatch(searchItem(searchValue));
+    // fetch(`https://dummyjson.com/products/search?q=${searchValue}`);
+  }, [searchValue]);
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(getData(data.products));
     }
   }, [isSuccess, data, dispatch]);
+
+  const handleSearchClick = () => {
+    setSearchClicked(true);
+    dispatch(setSortOrder(filter));
+  };
 
   const addToCart = (product) => {
     dispatch(addProduct(product));
@@ -74,6 +81,8 @@ function Products() {
                 </p>
                 <input
                   type="text"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="Search"
                   className="input input-bordered w-24 md:w-auto"
                 />
@@ -117,13 +126,15 @@ function Products() {
               </div>
               <div className="flex gap-[215px]">
                 <button
-                  // type="submit"
+                  type="button"
+                  onClick={handleSearchClick}
                   className="w-[245px] h-8 btn btn-info text-[#DBE1FF] min-h-0 bg-[#057AFF] rounded-lg font-[Segoe UI] font-normal text-[13px]"
                 >
                   SEARCH
                 </button>
                 <button
-                  // type="submit"
+                  type="button"
+                  onClick={() => setSearchClicked(false)}
                   className="w-[245px] h-8 btn btn-active btn-secondary min-h-0 text-[#DBE1FF] bg-[#C149AD] rounded-lg font-[Segoe UI] font-normal text-[13px]"
                 >
                   RESET

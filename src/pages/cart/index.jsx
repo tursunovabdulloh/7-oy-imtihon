@@ -35,7 +35,7 @@ function Cart() {
                     <div className="flex">
                       <div>
                         <img
-                          src={images}
+                          src={images[0]}
                           alt=""
                           width={128}
                           height={128}

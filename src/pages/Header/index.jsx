@@ -21,8 +21,7 @@ function Header() {
       });
   };
 
-  const userPhotoURL = login?.users?.photoURL;
-
+  console.log(auth.providerData);
   const handleViewCart = () => {
     navigate("/cart");
   };
@@ -195,7 +194,7 @@ function Header() {
                   className="btn btn-ghost btn-circle avatar"
                 >
                   <div className="w-10 rounded-full">
-                    <img alt="User Avatar" src={userPhotoURL} />
+                    <img alt="User Avatar" src={auth} />
                   </div>
                 </div>
                 <ul

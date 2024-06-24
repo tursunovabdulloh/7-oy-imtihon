@@ -129,6 +129,7 @@ function Home() {
                                   <div className="btn btn-sm p-[7.5px] mb-8 font-[Segoe UI] font-normal text-[20px] px-1 text-[#463AA1]">
                                     $ {price}
                                   </div>
+                                  <p>{rating}</p>
                                 </div>
                               </div>
                             </div>

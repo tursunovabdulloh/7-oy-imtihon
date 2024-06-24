@@ -12,32 +12,36 @@ const cartSlice = createSlice({
       state.data = action.payload;
       state.filteredData = action.payload;
     },
-    // filterDataByCategory: (state, action) => {
-    //   state.filteredData = state.data.filter(
-    //     (product) => product.category === action.payload.category
-    //   );
-    // },
+    filterDataByCategory: (state, action) => {
+      state.filteredData = state.data.filter(
+        (product) => product.category === action.payload.category
+      );
+    },
     setSortOrder: (state, action) => {
-      const { data } = state;
+      const { filteredDatadata } = state;
       switch (action.payload) {
         case "high":
-          state.filteredData = [...data].sort((a, b) => b.price - a.price);
+          state.filteredData = [...filteredData].sort(
+            (a, b) => b.price - a.price
+          );
           break;
         case "low":
-          state.filteredData = [...data].sort((a, b) => a.price - b.price);
+          state.filteredData = [...filteredData].sort(
+            (a, b) => a.price - b.price
+          );
           break;
         case "a-z":
-          state.filteredData = [...data].sort((a, b) =>
+          state.filteredData = [...filteredData].sort((a, b) =>
             a.title.localeCompare(b.title)
           );
           break;
         case "z-a":
-          state.filteredData = [...data].sort((a, b) =>
+          state.filteredData = [...filteredData].sort((a, b) =>
             b.title.localeCompare(a.title)
           );
           break;
         default:
-          state.filteredData = [...data];
+          state.filteredData = [...filteredData];
       }
     },
     addProduct: (state, action) => {

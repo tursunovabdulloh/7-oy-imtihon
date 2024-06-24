@@ -19,7 +19,7 @@ function Cart() {
         </div>
         <hr className="h-[1.5px] bg-[#E2E8F4] border-none" />
       </div>
-      <div className="flex ">
+      <div className="flex gap-[250px]">
         {" "}
         <div>
           {cart &&
@@ -81,14 +81,44 @@ function Cart() {
               }
             )}
         </div>
-        {/* <div className="flex flex-col">
+        <div className="card flex flex-col mt-[32px] w-[325px] h-[400px] bg-blue-100">
           <div>
-            <p>Subtotal</p>
-            <p>Subtotal</p>
-            <p>Subtotal</p>
+            <div className="flex flex-col  mt-8 px-8">
+              <div className="flex justify-between mb-2">
+                <p className="text-[18px] font-[Segoe UI] text-[#394E6A]">
+                  Subtotal
+                </p>
+                <p className="text-[14px] font-[Segoe UI] text-[#394E6A]">
+                  price
+                </p>
+              </div>
+              <hr className="border-t-2 border-black" />
+            </div>
+            <div className="flex flex-col  mt-8 px-8">
+              <div className="flex justify-between mb-2">
+                <p className="text-[18px] font-[Segoe UI] text-[#394E6A]">
+                  Subtotal
+                </p>
+                <p className="text-[14px] font-[Segoe UI] text-[#394E6A]">
+                  price
+                </p>
+              </div>
+              <hr className="border-t-2 border-black" />
+            </div>
+            <div className="flex flex-col  mt-8 px-8">
+              <div className="flex justify-between mb-2">
+                <p className="text-[18px] font-[Segoe UI] text-[#394E6A]">
+                  Subtotal
+                </p>
+                <p className="text-[14px] font-[Segoe UI] text-[#394E6A]">
+                  price
+                </p>
+              </div>
+              <hr className="border-t-2 border-black" />
+            </div>
           </div>
           <div></div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

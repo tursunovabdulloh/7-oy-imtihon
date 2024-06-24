@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import { useSelector } from "react-redux";
 import Products from "./pages/products";
 import Cart from "./pages/cart";
+import Profile from "./pages/Profile";
 
 function App() {
   function ProtectedRoutes({ children }) {
@@ -37,6 +38,10 @@ function App() {
         {
           path: "/cart",
           element: <Cart />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
         },
       ],
     },

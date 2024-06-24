@@ -7,6 +7,7 @@ import {
   getData,
   searchItem,
   setSortOrder,
+  filterDataByCategory,
 } from "../../store/CartSlice";
 import { useGetProductsQuery } from "./productsApi";
 
@@ -20,11 +21,17 @@ function Products() {
     skip: (currentPage - 1) * productsPerPage,
   });
   const [filter, setFilter] = useState("a-z");
-  const [searchClicked, setSearchClicked] = useState(false);
+  const [category, setCategory] = useState("all");
+  const [searchByClicked, setSearchByClicked] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
   useEffect(() => {
-    dispatch(searchItem(searchValue));
-  }, [searchValue]);
+    dispatch(filterDataByCategory(category));
+  }, [category]);
+
+  // useEffect(() => {
+  //   dispatch(searchItem(searchValue));
+  // }, [searchValue]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -32,21 +39,39 @@ function Products() {
     }
   }, [isSuccess, data, dispatch]);
 
-  const handleSearchClick = () => {
-    setSearchClicked(true);
+  //  search ishlshi
+  // const handleSearchClick = () => {
+  //   setSearchValue(true);
+  //   dispatch(searchItem(filter));
+  // };
+
+  //  Sortby ishlashi
+  const handleSearchByClick = () => {
+    setSearchByClicked(true);
+    dispatch(searchItem(searchValue));
     dispatch(setSortOrder(filter));
   };
 
+  //  category ishlashi
+  const ck = () => {
+    setSearchByClicked(true);
+    dispatch(setSortOrder(filter));
+    // dispatch(searchItem(searchValue));
+  };
+
+  // product qo'shish
   const addToCart = (product) => {
     dispatch(addProduct(product));
   };
 
+  // prev page
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
+  // next page
   const handleNextPage = () => {
     if (currentPage < Math.ceil(data.total / productsPerPage)) {
       setCurrentPage(currentPage + 1);
@@ -90,13 +115,20 @@ function Products() {
                 <p className="font-[Segoe UI] font-normal text-[14px] pl-1 mb-2 text-[#394E6A]">
                   Select category
                 </p>
-                <select className="select select-bordered w-[245px]">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="select select-bordered w-[245px]"
+                >
                   <option defaultValue="all">all</option>
-                  <option>Tables</option>
-                  <option>Chairs</option>
-                  <option>Kids</option>
-                  <option>Sofas</option>
-                  <option>Beds</option>
+                  <option value="Smartphones">Smartphones</option>
+                  <option value="Laptops">Laptops</option>
+                  <option value="Fragrances">Fragrances</option>
+                  <option value="Skincare">Skincare</option>
+                  <option value="Groceries">Groceries</option>
+                  <option value="Home Decoration">Home Decoration</option>
+                  <option value="Furniture">Furniture</option>
+                  <option value="Tops">Tops</option>
                 </select>
               </div>
               <div>
@@ -126,7 +158,7 @@ function Products() {
               <div className="flex gap-[215px]">
                 <button
                   type="button"
-                  onClick={handleSearchClick}
+                  onClick={handleSearchByClick}
                   className="w-[245px] h-8 btn btn-info text-[#DBE1FF] min-h-0 bg-[#057AFF] rounded-lg font-[Segoe UI] font-normal text-[13px]"
                 >
                   SEARCH

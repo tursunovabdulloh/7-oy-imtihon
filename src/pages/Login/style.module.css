@@ -1,4 +1,3 @@
-/* Bosh sahifa uchun CSS */
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -90,7 +89,7 @@
   margin-bottom: 32.28px;
 }
 
-.lastTetx {
+.lastText {
   font-family: Segoe UI;
   font-size: 16px;
   font-weight: 400;
@@ -98,7 +97,7 @@
   color: #394e6a;
 }
 
-.logintext {
+.loginText {
   font-family: Segoe UI;
   font-size: 16px;
   font-weight: 400;

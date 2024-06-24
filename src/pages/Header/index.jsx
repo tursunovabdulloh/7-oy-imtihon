@@ -1,8 +1,8 @@
-import { signOut } from "firebase/auth";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase/config";
+import { signOut } from "firebase/auth";
 
 function Header() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function Header() {
   const logout = () => {
     signOut(auth)
       .then(() => {
-        alert("Siz muvoffaqiyatli chiqingiz");
+        alert("You have successfully signed out");
         navigate("/login");
       })
       .catch((error) => {
@@ -21,11 +21,24 @@ function Header() {
       });
   };
 
-  const userPhotoURL = login?.users?.photoURL || "default-avatar-url.jpg"; // Default avatar URL
+  const userPhotoURL = login?.users?.photoURL;
 
   const handleViewCart = () => {
     navigate("/cart");
   };
+
+  const handleThemeChange = (value) => {
+    localStorage.setItem("theme", value);
+    const theme = localStorage.getItem("theme");
+    document.documentElement.setAttribute("data-theme", theme);
+  };
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      document.documentElement.setAttribute("data-theme", storedTheme);
+    }
+  }, []);
 
   return (
     <>
@@ -34,11 +47,11 @@ function Header() {
           <div className="navbar">
             <div className="navbar-start">
               <div className="dropdown">
-                <a href="/">
+                <Link to="/">
                   <p className="rounded-lg font-[Segoe UI] py-[6px] px-[15px] bg-[#057AFF] text-[25px] font-medium text-[#DBE1FF]">
                     C
                   </p>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="navbar-center p-0 flex gap-8">
@@ -77,6 +90,7 @@ function Header() {
                       className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                       aria-label="Default"
                       value="default"
+                      onChange={() => handleThemeChange("default")}
                     />
                   </li>
                   <li>
@@ -86,6 +100,7 @@ function Header() {
                       className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                       aria-label="Retro"
                       value="retro"
+                      onChange={() => handleThemeChange("retro")}
                     />
                   </li>
                   <li>
@@ -95,6 +110,7 @@ function Header() {
                       className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                       aria-label="Cyberpunk"
                       value="cyberpunk"
+                      onChange={() => handleThemeChange("cyberpunk")}
                     />
                   </li>
                   <li>
@@ -104,6 +120,7 @@ function Header() {
                       className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                       aria-label="night"
                       value="night"
+                      onChange={() => handleThemeChange("night")}
                     />
                   </li>
                   <li>
@@ -113,6 +130,7 @@ function Header() {
                       className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                       aria-label="Valentine"
                       value="valentine"
+                      onChange={() => handleThemeChange("valentine")}
                     />
                   </li>
                   <li>
@@ -122,6 +140,7 @@ function Header() {
                       className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                       aria-label="Aqua"
                       value="aqua"
+                      onChange={() => handleThemeChange("aqua")}
                     />
                   </li>
                 </ul>
@@ -169,34 +188,34 @@ function Header() {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="dropdown dropdown-end ml-3">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="w-10 rounded-full">
-                  <img alt="User Avatar" src={userPhotoURL} />
+              <div className="dropdown dropdown-end ml-3">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img alt="User Avatar" src={userPhotoURL} />
+                  </div>
                 </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <Link to="/profile" className="justify-between">
+                      Profile
+                      <span className="badge">New</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li>
+                    <a onClick={logout}>Logout</a>
+                  </li>
+                </ul>
               </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li>
-                <li>
-                  <a>Settings</a>
-                </li>
-                <li>
-                  <a onClick={logout}>Logout</a>
-                </li>
-              </ul>
             </div>
           </div>
         </div>

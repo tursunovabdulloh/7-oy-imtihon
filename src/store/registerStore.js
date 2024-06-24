@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  users: JSON.parse(localStorage.getItem("user")) || null,
+  users:
+    JSON.parse(localStorage.getItem("user")) ||
+    "https://accs-market.com/uploads/73254/u29371782.jpg",
   authChange: false,
 };
 

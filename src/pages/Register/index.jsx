@@ -17,16 +17,6 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!data.email || !/\S+@\S+\.\S+/.test(data.email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!data.password || data.password.length < 6) {
-      setError("Password should be at least 6 characters long.");
-      return;
-    }
-
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -50,7 +40,7 @@ function Register() {
         setError(errorMessage);
       });
   };
-
+  console.log(data);
   return (
     <>
       <div className={style.wrapper}>

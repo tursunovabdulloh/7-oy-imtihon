@@ -14,14 +14,16 @@ function Header() {
     signOut(auth)
       .then(() => {
         alert("You have successfully signed out");
+
         navigate("/login");
       })
       .catch((error) => {
         console.error("Error signing out: ", error);
       });
   };
-
-  console.log(auth.providerData);
+  const user = auth?.currentUser?.providerData[0];
+  console.log(auth);
+  // console.log();
   const handleViewCart = () => {
     navigate("/cart");
   };
@@ -38,7 +40,7 @@ function Header() {
       document.documentElement.setAttribute("data-theme", storedTheme);
     }
   }, []);
-
+  let UserFoto = localStorage.getItem("rasm");
   return (
     <>
       <div className="bg-base-200 shadow-[0px_5px_2px_-5px] shadow-[#0000001A]">
@@ -194,7 +196,7 @@ function Header() {
                   className="btn btn-ghost btn-circle avatar"
                 >
                   <div className="w-10 rounded-full">
-                    <img alt="User Avatar" src={auth} />
+                    <img alt="User Avatar" src={UserFoto} />
                   </div>
                 </div>
                 <ul

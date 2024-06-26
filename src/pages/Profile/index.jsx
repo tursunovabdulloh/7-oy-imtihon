@@ -1,19 +1,19 @@
 import React from "react";
 
 function Profile() {
+  const user = localStorage.getItem("rasm");
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  console.log(JSON.parse(localStorage.getItem("userData")));
   return (
     <>
       <div className="container">
-        <div className="card card-side bg-base-100 shadow-xl">
+        <div className="card card-side bg-base-100 shadow-xl mt-10">
           <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-              alt="Movie"
-            />
+            <img src={user} alt="Movie" className="w-[300px]" />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">New movie is released!</h2>
-            <p>Click the button to watch on Jetflix app.</p>
+            <h2 className="card-title">{userData.displayName}</h2>
+            <p>{userData.email}</p>
             <div className="card-actions justify-end">
               <button className="btn btn-primary">Watch</button>
             </div>

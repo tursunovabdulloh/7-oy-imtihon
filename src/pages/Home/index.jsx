@@ -15,6 +15,8 @@ function Home() {
     error,
   } = useSelector((state) => state.products);
 
+  let sortData = [...data].sort((a, b) => b.rating - a.rating);
+
   useEffect(() => {
     dispatch(fetchProducts({ limit: 18, skip: 0 }));
   }, [dispatch]);
@@ -93,7 +95,7 @@ function Home() {
               <section>
                 <div className="grid gap-14 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-24 xl:gap-x-48 mt-10 pb-20 strech">
                   {data &&
-                    data.map(
+                    sortData.map(
                       ({
                         id,
                         title,
@@ -129,7 +131,6 @@ function Home() {
                                   <div className="btn btn-sm p-[7.5px] mb-8 font-[Segoe UI] font-normal text-[20px] px-1 text-[#463AA1]">
                                     $ {price}
                                   </div>
-                                  <p>{rating}</p>
                                 </div>
                               </div>
                             </div>

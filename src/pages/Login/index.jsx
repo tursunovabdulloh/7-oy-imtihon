@@ -33,8 +33,9 @@ function Login() {
     signInWithEmailAndPassword(auth, logindata.email, logindata.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
         localStorage.setItem("user", JSON.stringify(user.providerData));
+        localStorage.setItem("rasm", user.photoURL);
+        localStorage.setItem("userData", JSON.stringify(userCredential.user));
         navigate("/");
       })
       .catch((error) => {
